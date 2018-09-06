@@ -1,0 +1,40 @@
+{
+  "name": "next-mobile-complete-demo",
+  "version": "1.0.0",
+  "license": "ISC",
+  "scripts": {
+    "dev": "node server/server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server/server.js"
+  },
+  "browserslist": [
+    "IOS >= 8",
+    "Android > 4.4"
+  ],
+  "dependencies": {
+    "@zeit/next-sass": "^0.2.0",
+    "antd-mobile": "^2.2.3",
+    "babel-plugin-import": "^1.8.0",
+    "es6-promise": "4.1.1",
+    "isomorphic-unfetch": "2.0.0",
+    "koa": "^2.5.2",
+    "koa-router": "^7.4.0",
+    "next": "latest",
+    "next-redux-saga": "3.0.0-beta.1",
+    "next-redux-wrapper": "2.0.0-beta.6",
+    "node-sass": "^4.9.3",
+    "nprogress": "^0.2.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-redux": "5.0.7",
+    "redux": "4.0.0",
+    "redux-actions": "^2.6.1",
+    "redux-saga": "0.16.0",
+    "require-hacker": "^3.0.1",
+    "svg-sprite-loader": "^3.9.2"
+  },
+  "devDependencies": {
+    "redux-devtools-extension": "2.13.2",
+    "redux-logger": "^3.0.6"
+  }
+}

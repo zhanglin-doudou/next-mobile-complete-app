@@ -1,0 +1,77 @@
+$base-blue: #5091e6;
+$black: #001429;
+$white: #ffffff;
+
+.main-layout {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  font: normal normal normal 14px PingFang SC, Hiragino Sans GB, Microsoft YaHei UI, Microsoft YaHei;
+  color: $black;
+  background-color: $white;
+}
+
+.main-content {
+  width: 100%;
+}
+.main-tabs {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/*  布局用flex  */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+// 行布局 垂直方向居中
+.flex-row-center {
+  @extend .flex-row;
+  align-items: center;
+}
+
+// 行布局 垂直方向居中,水平方向各元素均分剩余空间(两端有空间)
+.flex-row-center-around {
+  @extend .flex-row-center;
+  justify-content: space-around;
+}
+
+// 行布局 垂直方向居中,水平方向各元素均分剩余空间(两端无空间)
+.flex-row-center-between {
+  @extend .flex-row-center;
+  justify-content: space-between;
+}
+
+.flex-row-center-center {
+  @extend .flex-row-center;
+  justify-content: center;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+// 列布局 水平方向居中
+.flex-col-center {
+  @extend .flex-col;
+  align-items: center;
+}
+
+// 列布局 水平方向居中，垂直方向各元素均分剩余空间(两端有空间)
+.flex-col-center-around {
+  @extend .flex-col-center;
+  justify-content: space-around;
+}
+
+// 列布局 水平方向居中，垂直方向各元素均分剩余空间(两端无空间)
+.flex-col-center-between {
+  @extend .flex-col-center;
+  justify-content: space-between;
+}
