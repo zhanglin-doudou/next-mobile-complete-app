@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 
 class TabHome extends Component {
   render() {
-    console.log(this.props.someData);
-
     return (
       <div>
+        <h3>Server Initial Data -----></h3>
         {this.props.someData.length > 0 && (
           <pre>
-            <code>{this.props.someData.map(item => item.id)}</code>
+            <code>{JSON.stringify(this.props.someData, null, 2)}}</code>
           </pre>
         )}
         {this.props.error && <p style={{ color: 'red' }}>Error: {this.props.error.message}</p>}
