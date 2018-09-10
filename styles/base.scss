@@ -4,7 +4,7 @@ $white: #ffffff;
 
 .main-layout {
   position: absolute;
-  top: 0;
+  top: 45px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -15,13 +15,6 @@ $white: #ffffff;
 
 .main-content {
   width: 100%;
-}
-.main-tabs {
-  position: absolute;
-  top: 45px;
-  right: 0;
-  bottom: 0;
-  left: 0;
 }
 
 /*  布局用flex  */

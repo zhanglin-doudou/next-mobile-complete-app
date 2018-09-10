@@ -1,8 +1,8 @@
 import { handleAction } from 'redux-actions';
-import { setNavTitle } from '../../actions/global/nav';
+import { setNav } from '../../actions/global/nav';
 
-const initState = { navTitle: 'Home' };
+const initState = { navTitle: '', canGoBack: false, isHome: false };
 
-const navReducer = handleAction(setNavTitle, (state, { payload }) => ({ ...state, navTitle: payload }), initState);
+const navReducer = handleAction(setNav, (state, { payload }) => ({ ...state, ...payload }), initState);
 
 export { navReducer };

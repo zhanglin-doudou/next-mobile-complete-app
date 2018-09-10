@@ -16,7 +16,7 @@ const bindMiddleware = middleware => {
 };
 
 function configureStore(preState) {
-  const store = createStore(rootReducer, preState, bindMiddleware([sagaMiddleware, logger]));
+  const store = createStore(rootReducer, preState, bindMiddleware([sagaMiddleware]));
 
   store.runSagaTask = () => {
     store.sagaTask = sagaMiddleware.run(rootSaga);

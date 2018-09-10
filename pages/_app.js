@@ -4,6 +4,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import withReduxSaga from 'next-redux-saga';
+import NavBar from '../components/layout/NavBar';
 
 import createStore from '../store';
 
@@ -23,7 +24,12 @@ class MyApp extends App {
     return (
       <Container>
         <Provider store={store}>
-          <Component {...pageProps} />
+          <div>
+            <div className="main-nav">
+              <NavBar />
+            </div>
+            <Component {...pageProps} />
+          </div>
         </Provider>
       </Container>
     );

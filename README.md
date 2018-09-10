@@ -148,8 +148,6 @@ app.prepare().then(() => {
 -- README.md
 ```
 
-==注意：为了规范，遵循 react 理念，组件以及页面文件首字母大写==
-
 #### 2. layout 布局设计。
 
 `ant design` 一直是使用过而且比较有好感的 UI 框架。既然这是移动端的项目，[ant design mobile](https://mobile.ant.design/docs/react/introduce-cn) 成了首选的框架。我也看了其他的主流 UI 框架，现在流行的 UI 框架有[Amaze UI](http://amazeui.org/getting-started)、[Mint UI](https://mint-ui.github.io/#!/zh-cn)、[Frozen UI](http://frozenui.github.io/)等等，个人还是比较喜欢 ant design 出品的。

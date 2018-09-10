@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Link from 'next/link';
 
 class TabHome extends Component {
   render() {
     return (
       <div>
+        <Link href="/other">to other page</Link>
         <h3>Server Initial Data -----></h3>
         {this.props.someData.length > 0 && (
           <pre>

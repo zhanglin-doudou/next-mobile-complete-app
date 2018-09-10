@@ -1,9 +1,9 @@
 import { createActions } from 'redux-actions';
 
 const actionTypes = {
-  SET_NAV_TITLE: 'SET_NAV_TITLE'
+  SET_NAV: 'SET_NAV'
 };
 
-const { setNavTitle } = createActions({ [actionTypes.SET_NAV_TITLE]: payload => payload });
+const { setNav } = createActions({ [actionTypes.SET_NAV]: payload => payload });
 
-export { actionTypes, setNavTitle };
+export { actionTypes, setNav };

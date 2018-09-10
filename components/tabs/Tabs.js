@@ -1,31 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Router from 'next/router';
 import { TabBar, Icon } from 'antd-mobile';
 import TabHome from './TabHome';
 import TabIcon from './TabIcon';
 import TabTrick from './TabTrick';
-import { setNavTitle } from '../../store/actions/global/nav';
+import { setNav } from '../../store/actions/global/nav';
+import CustomIcon from '../common/CustomIcon';
+import './tabs.scss';
 
 const tabBarData = [
   {
     title: 'Home',
-    icon: 'koubei-o',
-    selectedIcon: 'koubei',
+    icon: <CustomIcon type={require('../../static/icons/home.svg')} />,
+    selectedIcon: <CustomIcon type={require('../../static/icons/home-selected.svg')} style={{ fill: '#108ee9' }} />,
     link: '/home',
     component: TabHome
   },
   {
     title: 'Icon',
-    icon: 'check-circle-o',
-    selectedIcon: 'check-circle',
+    icon: <Icon type="check-circle-o" />,
+    selectedIcon: <Icon type="check-circle" />,
     link: '/icon',
     component: TabIcon
   },
   {
     title: 'Trick',
-    icon: 'cross-circle-o',
-    selectedIcon: 'cross-circle',
+    icon: <Icon type="cross-circle-o" />,
+    selectedIcon: <Icon type="cross-circle" />,
     link: '/trick',
     component: TabTrick
   }
@@ -45,15 +46,16 @@ class Tabs extends Component {
         <TabBar>
           {tabBarData.map(({ title, icon, selectedIcon, link, dot, component }) => {
             const Com = component;
+
             return (
               <TabBar.Item
                 key={link}
                 title={title}
-                icon={<Icon type={icon} />}
-                selectedIcon={<Icon type={selectedIcon} />}
+                icon={icon}
+                selectedIcon={selectedIcon}
                 selected={this.state.selectedTab === link}
                 onPress={() => {
-                  this.props.dispatch(setNavTitle(title));
+                  this.props.dispatch(setNav({ navTitle: title, isHome: true }));
                   this.setState({
                     selectedTab: link
                   });
