@@ -17,6 +17,10 @@ class Index extends Component {
     };
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(setNav({ isHome: false }));
+  }
+
   render() {
     const { language, pathname } = this.props;
 

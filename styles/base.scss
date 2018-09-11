@@ -2,6 +2,13 @@ $base-blue: #5091e6;
 $black: #001429;
 $white: #ffffff;
 
+.main-nav {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 45px;
+}
 .main-layout {
   position: absolute;
   top: 45px;

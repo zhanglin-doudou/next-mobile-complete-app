@@ -6,7 +6,9 @@ class TabHome extends Component {
   render() {
     return (
       <div>
-        <Link href="/other">to other page</Link>
+        <Link href="/other">
+          <a>to other page</a>
+        </Link>
         <h3>Server Initial Data -----></h3>
         {this.props.someData.length > 0 && (
           <pre>

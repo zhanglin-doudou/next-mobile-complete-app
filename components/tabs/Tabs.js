@@ -39,8 +39,6 @@ class Tabs extends Component {
   }
 
   render() {
-    const { pathname, children } = this.props;
-
     return (
       <div className="main-tabs">
         <TabBar>
