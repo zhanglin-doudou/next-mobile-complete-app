@@ -1,7 +1,5 @@
 # Next 框架与主流工具的整合
 
-github 地址：[https://github.com/code-coder/next-mobile-complete-app](https://github.com/code-coder/next-mobile-complete-app)
-
 ##### 首先，clone 了 next.js 项目，学习里面的 templates。
 
 ##### 打开一看，我都惊呆了，差不多有 150 个搭配工具个 template，有点眼花缭乱。
