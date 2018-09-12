@@ -10,7 +10,6 @@ const myImg = src => (
 class MenuBar extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       canGoBack: false
     };
@@ -21,7 +20,9 @@ class MenuBar extends Component {
 
   handleRouteChange = url => {
     if (window && window.history.length > 0) {
-      this.setState({ canGoBack: true });
+      !this.setState.canGoBack && this.setState({ canGoBack: true });
+    } else {
+      this.setState.canGoBack && this.setState({ canGoBack: false });
     }
   };
 
@@ -37,6 +38,9 @@ class MenuBar extends Component {
     };
     if (nav.isHome) {
       leftContent = <Icon type="search" />;
+      onLeftClick = () => {
+        console.log('search click');
+      };
       rightContent = (
         <Popover
           mask

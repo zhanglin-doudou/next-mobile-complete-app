@@ -1,16 +1,21 @@
-import { all, call, put, take, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 import es6promise from 'es6-promise';
-import 'isomorphic-unfetch';
+import proxyFetch from '../../../api/proxyFetch';
 
 import { actionTypes, getDataSuccess, getDataFailed } from '../../actions/home/someData';
 
 es6promise.polyfill();
 
-function* loadDataSaga() {
+function* loadDataSaga(action) {
   try {
-    const res = yield fetch('https://jsonplaceholder.typicode.com/users');
-    const data = yield res.json();
-    yield put(getDataSuccess(data));
+    const { isServer, params } = (action && action.payload) || {};
+    const res = yield proxyFetch.get('https://jsonplaceholder.typicode.com/users', params, isServer);
+    if (res.ok) {
+      const data = yield res.json();
+      yield put(getDataSuccess(data));
+    } else {
+      yield put(getDataFailed(res));
+    }
   } catch (err) {
     yield put(getDataFailed(err));
   }

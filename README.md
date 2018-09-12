@@ -1,8 +1,10 @@
 # Next 框架与主流工具的整合
 
-##### 首先，先 clone 了 next.js 项目，学习里面的 templates。
+github 地址：[https://github.com/code-coder/next-mobile-complete-app](https://github.com/code-coder/next-mobile-complete-app)
 
-##### 打开下来一看，惊呆了，差不多有 150 个搭配工具个 template。
+##### 首先，clone 了 next.js 项目，学习里面的 templates。
+
+##### 打开一看，我都惊呆了，差不多有 150 个搭配工具个 template，有点眼花缭乱。
 
 ##### 这时候就需要明确一下我们要用哪些主流的工具了:
 
@@ -83,16 +85,6 @@ app.prepare().then(() => {
   const server = new Koa();
   const router = new Router();
 
-  router.get('/other', async ctx => {
-    await app.render(ctx.req, ctx.res, '/another', ctx.query);
-    ctx.respond = false;
-  });
-
-  router.get('/another', async ctx => {
-    await app.render(ctx.req, ctx.res, '/other', ctx.query);
-    ctx.respond = false;
-  });
-
   router.get('*', async ctx => {
     await handle(ctx.req, ctx.res);
     ctx.respond = false;
@@ -124,7 +116,7 @@ app.prepare().then(() => {
 
 - [x] 调整项目结构
 - [x] layout 布局设计
-- [x] 错误页面
+- [x] 请求拦截、loading 状态及错误处理
 
 #### 1. 调整后的项目结构
 
@@ -309,4 +301,201 @@ flex(10, 1);
 
 - **最后，使用 redux 管理 nav 的 title，使用 router 管理后退的箭头**
 
-#### 3、错误页面处理
+```
+// other.js
+static getInitialProps({ ctx }) {
+    const { store, req } = ctx;
+    // 通过这个action改变导航栏的标题
+    store.dispatch(setNav({ navTitle: 'Other' }));
+    const language = req ? req.headers['accept-language'] : navigator.language;
+
+    return {
+      language
+    };
+  }
+```
+
+```
+// NavBar.js
+componentDidMount() {
+// 通过监听route事件，判断是否显示返回箭头
+Router.router.events.on('routeChangeComplete', this.handleRouteChange);
+}
+
+handleRouteChange = url => {
+if (window && window.history.length > 0) {
+  !this.setState.canGoBack && this.setState({ canGoBack: true });
+} else {
+  this.setState.canGoBack && this.setState({ canGoBack: false });
+}
+};
+```
+
+```
+// NavBar.js
+let onLeftClick = () => {
+  if (this.state.canGoBack) {
+    // 返回上级页面
+    window.history.back();
+  }
+};
+```
+
+> **需要留意的是，在同一个页面改变 query，不会覆盖 history 的记录，而是增加一条，因此调用 history.back()只是根据浏览器地址记录返回。这里可以再做优化。**
+
+#### 3、请求拦截、loading 状态及错误处理
+
+- **封装 fetch 请求，使用单例模式对请求增加 Authrition 授权、全局 loading 等处理。**
+  > 要点：1、单例模式。2、延迟 loading。3、server 端渲染时不能加载 loading，因为 loading 是通过 document 对象操作的
+
+```
+// /api/proxyFetch.js
+import { Toast } from 'antd-mobile';
+import 'isomorphic-unfetch';
+
+// 请求超时时间设置
+const REQUEST_TIEM_OUT = 10 * 1000;
+// loading延迟时间设置
+const LOADING_TIME_OUT = 1000;
+
+class ProxyFetch {
+  constructor() {
+    this.fetchInstance = null;
+    this.urlPrefix = '';
+    this.headers = { 'Content-Type': 'application/json', DeviceId: 'android/ios' };
+    this.init = { credentials: 'omit', headers: this.headers };
+    // 处理loading
+    this.requestCount = 0;
+    this.isLoading = false;
+    this.loadingTimer = null;
+  }
+
+  /**
+   * 请求1s内没有响应显示loading
+   */
+  showLoading() {
+    if (this.requestCount === 0) {
+      this.loadingTimer = setTimeout(() => {
+        Toast.loading('加载中...', 0);
+        this.isLoading = true;
+        this.loadingTimer = null;
+      }, LOADING_TIME_OUT);
+    }
+    this.requestCount++;
+  }
+
+  hideLoading() {
+    this.requestCount--;
+    if (this.requestCount === 0) {
+      if (this.loadingTimer) {
+        clearTimeout(this.loadingTimer);
+        this.loadingTimer = null;
+      }
+      if (this.isLoading) {
+        this.isLoading = false;
+        Toast.hide();
+      }
+    }
+  }
+
+  /**
+   * 获取proxyFetch单例对象
+   */
+  static getInstance() {
+    if (!this.fetchInstance) {
+      this.fetchInstance = new ProxyFetch();
+    }
+    return this.fetchInstance;
+  }
+
+  /**
+   * get请求
+   * @param {*} url
+   * @param {*} params
+   */
+  async get(url, params = {}, isServer = false) {
+    const options = { method: 'GET' };
+    if (params) {
+      let paramsArray = [];
+      // encodeURIComponent
+      Object.keys(params).forEach(key => paramsArray.push(key + '=' + params[key]));
+      if (url.search(/\?/) === -1) {
+        url += '?' + paramsArray.join('&');
+      } else {
+        url += '&' + paramsArray.join('&');
+      }
+    }
+    return await this.dofetch(url, options, isServer);
+  }
+
+  /**
+   * post请求
+   * @param {*} url
+   * @param {*} params
+   */
+  async post(url, params = {}, isServer = false) {
+    const options = { method: 'POST' };
+    let data = '';
+    switch (params.bodyType) {
+      case 'form':
+        options.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+        Object.keys(params.bodys).map(index => {
+          let param = encodeURI(params.bodys[index]);
+          data += `${index}=${param}&`;
+        });
+        options.body = data;
+        break;
+      case 'file':
+        data = new FormData();
+        Object.keys(params.bodys).map(index => {
+          data.append(index, params.bodys[index]);
+        });
+        options.body = data;
+        break;
+      default:
+        options.body = JSON.stringify(params);
+        break;
+    }
+    return await this.dofetch(url, options, isServer);
+  }
+
+  /**
+   * fetch主函数
+   * @param {*} url
+   * @param {*} options
+   * @param {boolean} isServer 是否是服务端渲染的请求
+   * @param {boolean} setAuthorization 登录接口设置Authorization
+   */
+  dofetch(url, options, isServer, setAuthorization) {
+    !isServer && this.showLoading();
+    return Promise.race([
+      fetch(this.urlPrefix + url, { ...this.init, ...options }),
+      new Promise((resolve, reject) => {
+        setTimeout(() => reject(new Error('request timeout')), REQUEST_TIEM_OUT);
+      })
+    ])
+      .then(response => {
+        !isServer && this.hideLoading();
+        if (setAuthorization) {
+          this.headers.Authorization = response.json().token;
+          return {};
+        } else {
+          return response;
+        }
+      })
+      .catch(e => {
+        if (!server) {
+          this.hideLoading();
+          Toast.fail(e.message);
+        }
+        return { ok: false, status: '501', statusText: e.message };
+      });
+  }
+}
+
+export default ProxyFetch.getInstance();
+```
+
+##### 最后，一个完整项目的雏形大致出来了，但是还是需要在实践中不断打磨和优化。
+
+##### 如有错误和问题欢迎各位大佬不吝赐教 :)

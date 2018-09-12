@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Layout from '../components/layout/Layout';
-import { getDataStart } from '../store/actions/home/someData';
 import { setNav } from '../store/actions/global/nav';
 
 class Other extends Component {
-  static async getInitialProps({ ctx }) {
+  static getInitialProps({ ctx }) {
     const { store, req } = ctx;
     store.dispatch(setNav({ navTitle: 'Other' }));
-    store.dispatch(getDataStart());
     const language = req ? req.headers['accept-language'] : navigator.language;
 
     return {
