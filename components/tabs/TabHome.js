@@ -18,7 +18,7 @@ class TabHome extends Component {
         <h3>Server Initial Data -----></h3>
         {this.props.someData.length > 0 && (
           <pre>
-            <code>{JSON.stringify(this.props.someData, null, 2)}}</code>
+            <code>{JSON.stringify(this.props.someData, null, 2)}</code>
           </pre>
         )}
         {this.props.error && <p style={{ color: 'red' }}>Error: {this.props.error.message}</p>}

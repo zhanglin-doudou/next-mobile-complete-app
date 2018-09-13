@@ -15,7 +15,7 @@ class Other extends Component {
   }
 
   render() {
-    const { language, pathname } = this.props;
+    const { language } = this.props;
 
     return <Layout language={language}>other page</Layout>;
   }

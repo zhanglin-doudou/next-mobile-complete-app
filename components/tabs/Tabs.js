@@ -42,7 +42,7 @@ class Tabs extends Component {
     return (
       <div className="main-tabs">
         <TabBar>
-          {tabBarData.map(({ title, icon, selectedIcon, link, dot, component }) => {
+          {tabBarData.map(({ title, icon, selectedIcon, link, component }) => {
             const Com = component;
 
             return (

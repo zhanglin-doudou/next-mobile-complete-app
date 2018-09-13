@@ -22,7 +22,7 @@ class Index extends Component {
   }
 
   render() {
-    const { language, pathname } = this.props;
+    const { language } = this.props;
 
     return (
       <Layout language={language}>
