@@ -1,7 +1,96 @@
-$base-blue: #5091e6;
-$black: #001429;
-$white: #ffffff;
+@import './variables.scss';
 
+/* reset */
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+fieldset,
+img {
+  border: 0;
+}
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+  font-style: normal;
+  font-weight: normal;
+}
+ol,
+ul {
+  list-style: none;
+}
+caption,
+th {
+  text-align: left;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+q:before,
+q:after {
+  content: '';
+}
+abbr,
+acronym {
+  border: 0;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  color: $black;
+}
+li {
+  list-style: none;
+}
+input,
+img {
+  border: none;
+}
+
+/* main */
 .main-nav {
   position: absolute;
   top: 0;
@@ -18,60 +107,104 @@ $white: #ffffff;
   font: normal normal normal 14px PingFang SC, Hiragino Sans GB, Microsoft YaHei UI, Microsoft YaHei;
   color: $black;
   background-color: $white;
+  -webkit-overflow-scrolling: touch;
 }
 
 .main-content {
   width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+// 字体配置列表
+$fontSizeList: (text-xxxl, $text-xxxl), (text-xxl $text-xxl), (text-xl $text-xl), (title-lg $title-lg),
+  (title-md $title-md), (title-sm $title-sm), (text-xl $text-xl), (text-lg $text-lg), (text-md $text-md),
+  (text-sm $text-sm), (text-xs $text-xs);
+// 中文字体类
+@each $className, $size in $fontSizeList {
+  .#{$className} {
+    font-family: PingFangSC-Regular;
+    font-size: $size;
+    line-height: $size;
+  }
+}
+@each $className, $size in $fontSizeList {
+  .#{$className}-s {
+    font-family: PingFangSC-Semibold;
+    font-weight: 600;
+    font-size: $size;
+    line-height: $size;
+  }
+}
+@each $className, $size in $fontSizeList {
+  .#{$className}-m {
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    font-size: $size;
+    line-height: $size;
+  }
 }
 
 /*  布局用flex  */
-.flex-row {
+.row {
   display: flex;
-  flex-direction: row;
+  direction: row;
 }
 
 // 行布局 垂直方向居中
-.flex-row-center {
-  @extend .flex-row;
+.row-center {
+  @extend .row;
   align-items: center;
 }
 
 // 行布局 垂直方向居中,水平方向各元素均分剩余空间(两端有空间)
-.flex-row-center-around {
-  @extend .flex-row-center;
+.row-center-around {
+  @extend .row-center;
   justify-content: space-around;
 }
 
 // 行布局 垂直方向居中,水平方向各元素均分剩余空间(两端无空间)
-.flex-row-center-between {
-  @extend .flex-row-center;
+.row-center-between {
+  @extend .row-center;
   justify-content: space-between;
 }
 
-.flex-row-center-center {
-  @extend .flex-row-center;
+.row-center-center {
+  @extend .row-center;
   justify-content: center;
 }
 
-.flex-col {
+.col {
   display: flex;
-  flex-direction: column;
+  direction: column;
 }
 
 // 列布局 水平方向居中
-.flex-col-center {
-  @extend .flex-col;
+.col-center {
+  @extend .col;
   align-items: center;
 }
 
 // 列布局 水平方向居中，垂直方向各元素均分剩余空间(两端有空间)
-.flex-col-center-around {
-  @extend .flex-col-center;
+.col-center-around {
+  @extend .col-center;
   justify-content: space-around;
 }
 
 // 列布局 水平方向居中，垂直方向各元素均分剩余空间(两端无空间)
-.flex-col-center-between {
-  @extend .flex-col-center;
+.col-center-between {
+  @extend .col-center;
   justify-content: space-between;
+}
+
+.col-center-between {
+  @extend .col-center;
+  justify-content: center;
+}
+
+// 文本超出显示省略号
+.length-restrict {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

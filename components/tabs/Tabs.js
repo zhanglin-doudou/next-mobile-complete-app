@@ -5,14 +5,25 @@ import TabHome from './TabHome';
 import TabIcon from './TabIcon';
 import TabTrick from './TabTrick';
 import { setNav } from '../../store/actions/global/nav';
-import CustomIcon from '../common/CustomIcon';
 import './tabs.scss';
+
+function tabIcon(url) {
+  return (
+    <div
+      style={{
+        width: '.22rem',
+        height: '.22rem',
+        background: `url(${url}) center center /  .21rem .21rem no-repeat`
+      }}
+    />
+  );
+}
 
 const tabBarData = [
   {
     title: 'Home',
-    icon: <CustomIcon type={require('../../static/icons/home.svg')} />,
-    selectedIcon: <CustomIcon type={require('../../static/icons/home-selected.svg')} style={{ fill: '#108ee9' }} />,
+    icon: tabIcon('/static/icons/home.svg'),
+    selectedIcon: tabIcon('/static/icons/home-selected.svg'),
     link: '/home',
     component: TabHome
   },

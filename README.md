@@ -497,3 +497,40 @@ export default ProxyFetch.getInstance();
 ##### 最后，一个完整项目的雏形大致出来了，但是还是需要在实践中不断打磨和优化。
 
 ##### 如有错误和问题欢迎各位大佬不吝赐教 :)
+
+## 项目实战踩坑指南
+
+#### 1. 移动端 overflow:auto，ios 滚动卡顿
+
+解决方案： 主容器增加样式`-webkit-overflow-scrolling: touch;`
+
+#### 2. dev mode 路由跳转后样式丢失
+
+原因：dev 下样式根据页面动态加载，浏览器缓存文件`styles.chunk.css`造成样式不更新。  
+解决方案： 利用版本号强制重载样式文件
+示例 1：
+
+```jsx
+// 在Layout组件中
+<Head>
+  <title>{title}</title>
+  {process.env.NODE_ENV !== 'production' && (
+    <link rel="stylesheet" type="text/css" href={'/_next/static/css/styles.chunk.css?v=' + Date.now()} />
+  )}
+</Head>
+```
+
+示例 2：
+
+```jsx
+// 在_app.js中
+import Router from 'next/router';
+
+Router.events.on('routeChangeComplete', () => {
+  if (process.env.NODE_ENV !== 'production') {
+    const els = document.querySelectorAll('link[href*="/_next/static/css/styles.chunk.css"]');
+    const timestamp = new Date().valueOf();
+    els[0].href = '/_next/static/css/styles.chunk.css?v=' + timestamp;
+  }
+});
+```

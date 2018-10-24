@@ -18,7 +18,12 @@ class MenuBar extends Component {
     Router.router.events.on('routeChangeComplete', this.handleRouteChange);
   }
 
-  handleRouteChange = url => {
+  handleRouteChange = () => {
+    if (process.env.NODE_ENV !== 'production') {
+      const els = document.querySelectorAll('link[href*="/_next/static/css/styles.chunk.css"]');
+      const timestamp = new Date().valueOf();
+      els[0].href = '/_next/static/css/styles.chunk.css?v=' + timestamp;
+    }
     if (window && window.history.length > 0) {
       !this.setState.canGoBack && this.setState({ canGoBack: true });
     } else {

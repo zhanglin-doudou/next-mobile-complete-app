@@ -13,7 +13,7 @@ export default class MyDocument extends Document {
         <Head>
           <link rel="stylesheet" href="/_next/static/style.css" />
           {/* antd mobile */}
-          <script src="/static/hd.min.js" />
+          <script src="/static/rem.js" />
           <link rel="stylesheet" type="text/css" href="//unpkg.com/antd-mobile/dist/antd-mobile.min.css" />
           <style>{`
             .page {
