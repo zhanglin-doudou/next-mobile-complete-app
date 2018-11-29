@@ -7,14 +7,12 @@ import { setNav } from '../store/actions/global/nav';
 
 class Index extends Component {
   static async getInitialProps({ ctx }) {
-    const { store, req, isServer } = ctx;
+    const { store, req, isServer, cookies } = ctx;
     store.dispatch(setNav({ navTitle: 'Home', isHome: true }));
-    store.dispatch(getDataStart({ isServer }));
+    store.dispatch(getDataStart({ settings: { isServer, cookies } }));
     const language = req ? req.headers['accept-language'] : navigator.language;
 
-    return {
-      language
-    };
+    return { language };
   }
 
   componentWillUnmount() {

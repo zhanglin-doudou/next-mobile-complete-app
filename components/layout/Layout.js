@@ -10,7 +10,7 @@ export default class Layout extends Component {
     return (
       <LocaleProvider locale={locale}>
         <div className="main-layout">
-          <div className={'main-content' + className} style={style}>
+          <div className={'main-content col' + className} style={style}>
             {children}
           </div>
         </div>

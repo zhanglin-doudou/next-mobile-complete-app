@@ -8,14 +8,9 @@ es6promise.polyfill();
 
 function* loadDataSaga(action) {
   try {
-    const { isServer, params } = (action && action.payload) || {};
-    const res = yield proxyFetch.get('https://jsonplaceholder.typicode.com/users', params, isServer);
-    if (res.ok) {
-      const data = yield res.json();
-      yield put(getDataSuccess(data));
-    } else {
-      yield put(getDataFailed(res));
-    }
+    const { settings, params } = (action && action.payload) || {};
+    const data = yield proxyFetch.get('/users', params, settings);
+    yield put(getDataSuccess(data));
   } catch (err) {
     yield put(getDataFailed(err));
   }

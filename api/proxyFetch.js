@@ -1,5 +1,6 @@
 import { Toast } from 'antd-mobile';
 import 'isomorphic-unfetch';
+import Router from 'next/router';
 
 // 请求超时时间设置
 const REQUEST_TIEM_OUT = 10 * 1000;
@@ -9,9 +10,8 @@ const LOADING_TIME_OUT = 1000;
 class ProxyFetch {
   constructor() {
     this.fetchInstance = null;
-    this.urlPrefix = '';
-    this.headers = { 'Content-Type': 'application/json', DeviceId: 'android/ios' };
-    this.init = { credentials: 'omit', headers: this.headers };
+    this.headers = { 'Content-Type': 'application/json' };
+    this.init = { credentials: 'include', mode: 'cors' };
     // 处理loading
     this.requestCount = 0;
     this.isLoading = false;
@@ -58,85 +58,116 @@ class ProxyFetch {
 
   /**
    * get请求
-   * @param {*} url
-   * @param {*} params
+   * @param {String} url
+   * @param {Object} params
+   * @param {Object} settings: { isServer, noLoading, cookies }
    */
-  async get(url, params = {}, isServer = false) {
+  async get(url, params = {}, settings = {}) {
     const options = { method: 'GET' };
     if (params) {
       let paramsArray = [];
       // encodeURIComponent
-      Object.keys(params).forEach(key => paramsArray.push(key + '=' + params[key]));
+      Object.keys(params).forEach(key => {
+        if (params[key] instanceof Array) {
+          const value = params[key].map(item => '"' + item + '"');
+          paramsArray.push(key + '=[' + value.join(',') + ']');
+        } else {
+          paramsArray.push(key + '=' + params[key]);
+        }
+      });
       if (url.search(/\?/) === -1) {
         url += '?' + paramsArray.join('&');
       } else {
         url += '&' + paramsArray.join('&');
       }
     }
-    return await this.dofetch(url, options, isServer);
+    return await this.dofetch(url, options, settings);
   }
 
   /**
    * post请求
-   * @param {*} url
-   * @param {*} params
+   * @param {String} url
+   * @param {Object} params
+   * @param {Object} settings: { isServer, noLoading, cookies }
    */
-  async post(url, params = {}, isServer = false) {
+  async post(url, params = {}, settings = {}) {
     const options = { method: 'POST' };
-    let data = '';
-    switch (params.bodyType) {
-      case 'form':
-        options.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-        Object.keys(params.bodys).map(index => {
-          let param = encodeURI(params.bodys[index]);
-          data += `${index}=${param}&`;
-        });
-        options.body = data;
-        break;
-      case 'file':
-        data = new FormData();
-        Object.keys(params.bodys).map(index => {
-          data.append(index, params.bodys[index]);
-        });
-        options.body = data;
-        break;
-      default:
-        options.body = JSON.stringify(params);
-        break;
-    }
-    return await this.dofetch(url, options, isServer);
+    options.body = JSON.stringify(params);
+    return await this.dofetch(url, options, settings);
+  }
+
+  /**
+   * put请求
+   * @param {String} url
+   * @param {Object} params
+   * @param {Object} settings: { isServer, noLoading, cookies }
+   */
+  async put(url, params = {}, settings = {}) {
+    const options = { method: 'PUT' };
+    options.body = JSON.stringify(params);
+    return await this.dofetch(url, options, settings);
+  }
+
+  /**
+   * put请求
+   * @param {String} url
+   * @param {Object} params
+   * @param {Object} settings: { isServer, noLoading, cookies }
+   */
+  async delete(url, params = {}, settings = {}) {
+    const options = { method: 'DELETE' };
+    options.body = JSON.stringify(params);
+    return await this.dofetch(url, options, settings);
   }
 
   /**
    * fetch主函数
    * @param {*} url
    * @param {*} options
-   * @param {boolean} isServer 是否是服务端渲染的请求
-   * @param {boolean} setAuthorization 登录接口设置Authorization
+   * @param {Object} settings: { isServer, noLoading, cookies }
    */
-  dofetch(url, options, isServer, setAuthorization) {
-    !isServer && this.showLoading();
+  dofetch(url, options, settings = {}) {
+    const { isServer, noLoading, cookies = {} } = settings;
+    let loginCondition = false;
+    if (isServer) {
+      this.headers.cookies = 'EGG_SESS=' + cookies['EGG_SESS'];
+    }
+    if (!isServer && !noLoading) {
+      loginCondition = Router.route.indexOf('/login') === -1;
+      this.showLoading();
+    }
+    const prefix = isServer ? process.env.BACKEND_URL_SERVER_SIDE : process.env.BACKEND_URL;
     return Promise.race([
-      fetch(this.urlPrefix + url, { ...this.init, ...options }),
+      fetch(prefix + url, { headers: this.headers, ...this.init, ...options }),
       new Promise((resolve, reject) => {
         setTimeout(() => reject(new Error('request timeout')), REQUEST_TIEM_OUT);
       })
     ])
       .then(response => {
-        !isServer && this.hideLoading();
-        if (setAuthorization) {
-          this.headers.Authorization = response.json().token;
-          return {};
+        !isServer && !noLoading && this.hideLoading();
+        if (response.status === 500) {
+          throw new Error('服务器内部错误');
+        } else if (response.status === 404) {
+          throw new Error('请求地址未找到');
+        } else if (response.status === 401) {
+          if (loginCondition) {
+            Router.push('/login?directBack=true');
+          }
+          throw new Error('请先登录');
+        } else if (response.status === 400) {
+          throw new Error('请求参数错误');
+        } else if (response.status === 204) {
+          return { success: true };
         } else {
-          return response;
+          return response && response.json();
         }
       })
       .catch(e => {
-        if (!server) {
+        if (!isServer && !noLoading) {
           this.hideLoading();
-          Toast.fail(e.message);
+          Toast.info(e.message);
         }
-        return { ok: false, status: '501', statusText: e.message };
+        return { success: false, statusText: e.message };
       });
   }
 }

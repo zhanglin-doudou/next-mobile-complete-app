@@ -515,7 +515,7 @@ export default ProxyFetch.getInstance();
 <Head>
   <title>{title}</title>
   {process.env.NODE_ENV !== 'production' && (
-    <link rel="stylesheet" type="text/css" href={'/_next/static/css/styles.chunk.css?v=' + Date.now()} />
+    <link rel="stylesheet" type="text/css" href={'/_next/static/css/styles.chunk.css?v=' + Router.route} />
   )}
 </Head>
 ```
@@ -533,4 +533,90 @@ Router.events.on('routeChangeComplete', () => {
     els[0].href = '/_next/static/css/styles.chunk.css?v=' + timestamp;
   }
 });
+```
+
+#### 3、Android 键盘弹起窗口会变小，有 flex 或者 position 是 absolute 或者 fixed 布局会变
+
+这里直接把`body.height`设置为浏览器的窗口高度。
+
+```
+doc.body.style.height = docEl.clientHeight + 'px';
+```
+
+#### 4、跨域及传递 cookie 的问题
+
+**第一步，登录成功后 api 服务器返回 cookie。**
+
+跨域访问要接收 cookie，解决办法也很简单只需要 API 服务器根据请求地址设置`Access-Control-Allow-Origin`的值为请求地址的 ip 就可以了（测试环境可以动态设置这个 ip，生产可以设置指定的域名或者 ip 地址）。
+
+**第二步，浏览器自动缓存，再后续请求中携带此 cookie。**
+
+fetch 或 axois 请求都默认不带 cookie，需要通过 option 配置打开。
+
+    - fetch要配置`{ credentials: 'include', mode: 'cors' }`
+
+    - axois要配置`axios.defaults.withCredentials=true;`
+
+---
+
+**另外，还可以通过服务器代理走内网访问 api。**
+
+以下为我们公司所采用的解决方案：
+
+为了解决跨域以及部署不同服务器需要修改 api 地址的问题，我们使用 前端服务器代理 + dns 解析。整个流程如下图所示：
+![image](https://www.sctsdsy.com/images/NextJS_render_api.png)
+
+通过`NODE_ENV`环境变量来配置开发和生产的地址。
+
+```
+const isProd = process.env.NODE_ENV === 'production';
+process.env.BACKEND_URL = isProd ? '/relative_url' : 'http://text.api.com';
+process.env.BACKEND_URL_SERVER_SIDE = isProd ? 'http://bff.api.com' : 'https://prod.api.com';
+
+module.exports = {
+  'process.env.BACKEND_URL': process.env.BACKEND_URL, // 客户端渲染请求，是个相对地址，在前端服务器被代理到API服务器
+  'process.env.BACKEND_URL_SERVER_SIDE': process.env.BACKEND_URL_SERVER_SIDE // 服务端渲染请求，是API服务器地址，仅供内网访问
+};
+```
+
+#### 5、服务端渲染时带 cookie 请求的问题
+
+这里用到一个插件叫[nookies](https://github.com/maticzav/nookies#readme)。
+
+在`_app.js`中全局解析 cookies 注入`ctx`:
+
+```
+static async getInitialProps({ Component, ctx }) {
+    let pageProps = {};
+
+    let cookies = {};
+    if (ctx.isServer) {
+      cookies = parseCookies(ctx);
+    }
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps({ ctx, cookies });
+    }
+
+    return { pageProps };
+  }
+```
+
+然后就可以通过页面请求：
+
+```
+static async getInitialProps({ ctx }) {
+    const { store, req, isServer, cookies } = ctx;
+    store.dispatch(setNav({ navTitle: 'Home', isHome: true }));
+    store.dispatch(getDataStart({ settings: { isServer, cookies } }));
+  }
+```
+
+在`proxyFetch`中就会根据`isServer`的值来分辨是服务端 API 请求还是客户端 API 请求。服务端请求会把 cookies 写入 Fetch 的 header 中。
+
+```
+
+const prefix = isServer ? process.env.BACKEND_URL_SERVER_SIDE : process.env.BACKEND_URL;
+isServer && (this.headers['cookie'] = 'EGG_SESS=' + cookies['EGG_SESS'] + ';';)
+// fetch核心
+fetch(prefix + url, { headers: this.headers, ...this.init, ...options })
 ```

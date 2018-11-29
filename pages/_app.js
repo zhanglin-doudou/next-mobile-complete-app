@@ -7,13 +7,18 @@ import withReduxSaga from 'next-redux-saga';
 import NavBar from '../components/layout/NavBar';
 
 import createStore from '../store';
+import { parseCookies } from 'nookies';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
 
+    let cookies = {};
+    if (ctx.isServer) {
+      cookies = parseCookies(ctx);
+    }
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps({ ctx });
+      pageProps = await Component.getInitialProps({ ctx, cookies });
     }
 
     return { pageProps };

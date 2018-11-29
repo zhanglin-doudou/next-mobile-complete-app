@@ -12,6 +12,7 @@ export default class MyDocument extends Document {
       <html lang="en">
         <Head>
           <script src="/static/rem.js" />
+          <script src="/static/user-agent.js" />
           <link rel="stylesheet" type="text/css" href="//unpkg.com/antd-mobile/dist/antd-mobile.min.css" />
         </Head>
         <body>
