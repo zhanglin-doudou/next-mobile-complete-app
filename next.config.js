@@ -28,7 +28,14 @@ function moduleDir(m) {
 module.exports = withSass({
   webpack: (config, { dev }) => {
     config.resolve.extensions = ['.web.js', '.js', '.json'];
-
+    config.resolve.alias = {
+      components: path.resolve(__dirname, 'components'),
+      styles: path.resolve(__dirname, 'styles'),
+      images: path.resolve(__dirname, 'static/images'),
+      api: path.resolve(__dirname, 'api'),
+      actions: path.resolve(__dirname, 'store/actions'),
+      utils: path.resolve(__dirname, 'static/utils')
+    };
     config.module.rules.push({
       test: /\.(svg)$/i,
       loader: 'emit-file-loader',

@@ -89,7 +89,22 @@ input,
 img {
   border: none;
 }
-
+img {
+  display: inline-block;
+  object-fit: cover;
+}
+html {
+  height: 100%;
+  body {
+    height: 100%;
+    font: normal normal normal 0.14rem PingFang SC, Hiragino Sans GB, Microsoft YaHei UI, Microsoft YaHei;
+    line-height: 0.14rem;
+    color: $black;
+    & > div:first-of-type {
+      height: 100%;
+    }
+  }
+}
 /* main */
 .main-nav {
   position: absolute;
@@ -125,7 +140,6 @@ $fontSizeList: (text-xxxl, $text-xxxl), (text-xxl $text-xxl), (text-xl $text-xl)
   .#{$className} {
     font-family: PingFangSC-Regular;
     font-size: $size;
-    line-height: $size;
   }
 }
 @each $className, $size in $fontSizeList {
@@ -133,7 +147,6 @@ $fontSizeList: (text-xxxl, $text-xxxl), (text-xxl $text-xxl), (text-xl $text-xl)
     font-family: PingFangSC-Semibold;
     font-weight: 600;
     font-size: $size;
-    line-height: $size;
   }
 }
 @each $className, $size in $fontSizeList {
@@ -141,7 +154,6 @@ $fontSizeList: (text-xxxl, $text-xxxl), (text-xxl $text-xxl), (text-xl $text-xl)
     font-family: PingFangSC-Medium;
     font-weight: 500;
     font-size: $size;
-    line-height: $size;
   }
 }
 
@@ -202,9 +214,34 @@ $fontSizeList: (text-xxxl, $text-xxxl), (text-xxl $text-xxl), (text-xl $text-xl)
   justify-content: center;
 }
 
-// 文本超出显示省略号
+// 文本超出1行显示省略号
 .length-restrict {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+// 文本超出2行显示省略号
+.length-restrict-2-line {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  /* autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /* autoprefixer: on */
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* 底部固定带padding的button */
+.bottom-button {
+  padding: 0.05rem 0.15rem 0.08rem;
+  img {
+    width: 0.18rem;
+    margin-right: 0.1rem;
+  }
+  .button_inactive {
+    background-color: $border-grey;
+    color: $white;
+  }
 }
