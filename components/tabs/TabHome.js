@@ -11,8 +11,11 @@ class TabHome extends Component {
   render() {
     return (
       <div>
-        <Link href="/other">
-          <a>to other page</a>
+        <Link href="/scroll-page">
+          <Button>to scroll page</Button>
+        </Link>
+        <Link href="/flex-page">
+          <Button>to flex page</Button>
         </Link>
         <Button onClick={() => this.requestData()}>client request</Button>
         <h3>Server Initial Data -----></h3>

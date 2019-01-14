@@ -94,12 +94,12 @@ img {
   object-fit: cover;
 }
 html {
-  height: 100%;
   body {
-    height: 100%;
     font: normal normal normal 0.14rem PingFang SC, Hiragino Sans GB, Microsoft YaHei UI, Microsoft YaHei;
     line-height: 0.14rem;
     color: $black;
+    background-color: $white;
+    -webkit-overflow-scrolling: touch;
     & > div:first-of-type {
       height: 100%;
     }
@@ -107,28 +107,36 @@ html {
 }
 /* main */
 .main-nav {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   left: 0;
-  height: 45px;
+  height: $nav-height;
+  z-index: 1;
 }
-.main-layout {
+.main-content {
   position: absolute;
-  top: 45px;
+  top: $nav-height;
+  right: 0;
+  left: 0;
+  min-height: calc(100% - 0.45rem - constant(safe-area-inset-bottom));
+  min-height: calc(100% - 0.45rem - env(safe-area-inset-bottom));
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.safe-area {
+  height: constant(safe-area-inset-bottom);
+  height: env(safe-area-inset-bottom);
+}
+.fixed-bottom {
+  position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
-  font: normal normal normal 14px PingFang SC, Hiragino Sans GB, Microsoft YaHei UI, Microsoft YaHei;
-  color: $black;
-  background-color: $white;
-  -webkit-overflow-scrolling: touch;
-}
-
-.main-content {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
+  z-index: 1;
+  background: #fff;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 // 字体配置列表
@@ -160,7 +168,7 @@ $fontSizeList: (text-xxxl, $text-xxxl), (text-xxl $text-xxl), (text-xl $text-xl)
 /*  布局用flex  */
 .row {
   display: flex;
-  direction: row;
+  flex-direction: row;
 }
 
 // 行布局 垂直方向居中
@@ -188,7 +196,7 @@ $fontSizeList: (text-xxxl, $text-xxxl), (text-xxl $text-xxl), (text-xl $text-xl)
 
 .col {
   display: flex;
-  direction: column;
+  flex-direction: column;
 }
 
 // 列布局 水平方向居中
@@ -225,23 +233,8 @@ $fontSizeList: (text-xxxl, $text-xxxl), (text-xxl $text-xxl), (text-xl $text-xl)
 .length-restrict-2-line {
   word-break: break-all;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  /* autoprefixer: off */
+  display: box;
   -webkit-box-orient: vertical;
-  /* autoprefixer: on */
   -webkit-line-clamp: 2;
   overflow: hidden;
-}
-
-/* 底部固定带padding的button */
-.bottom-button {
-  padding: 0.05rem 0.15rem 0.08rem;
-  img {
-    width: 0.18rem;
-    margin-right: 0.1rem;
-  }
-  .button_inactive {
-    background-color: $border-grey;
-    color: $white;
-  }
 }
