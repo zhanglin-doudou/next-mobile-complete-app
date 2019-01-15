@@ -26,6 +26,7 @@ class ScrollPage extends Component {
         }
       >
         <div style={{ height: '100vh', border: '3px solid' }}>info 1</div>
+        <input style={{ border: '1px solid red' }} placeholder="输入文字" />
         <div style={{ height: '100vh', border: '3px solid' }}>info 2</div>
       </Layout>
     );

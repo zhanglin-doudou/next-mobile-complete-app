@@ -6,7 +6,7 @@
       "styles/*": ["./styles/*"],
       "images/*": ["./static/images/*"],
       "api/*": ["./api/*"],
-      "utils/*": ["./static/utils/*"],
+      "utils/*": ["./utils/*"],
       "actions/*": ["./store/actions/*"]
     }
   }

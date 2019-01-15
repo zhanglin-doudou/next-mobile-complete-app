@@ -1,4 +1,4 @@
-import { Toast } from 'antd-mobile';
+import Toast from 'utils/toast';
 import 'isomorphic-unfetch';
 import Router from 'next/router';
 

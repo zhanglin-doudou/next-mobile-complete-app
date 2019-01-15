@@ -1,0 +1,48 @@
+.rotateY {
+  animation: rotateY 2s ease 0.2s;
+}
+@keyframes rotateY {
+  from {
+    transform: rotateY(0);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+.rotate360 {
+  animation: rotate360 4s linear 0.1s infinite;
+}
+.rotate360-800 {
+  animation: rotate360 0.8s linear infinite;
+}
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.fadeInZ {
+  animation: fadeInZ 0.4s ease both;
+}
+@keyframes fadeInZ {
+  from {
+    transform: translate3d(0, 0, 1px);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+.fadeIn {
+  animation: fadeIn 0.6s ease both;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

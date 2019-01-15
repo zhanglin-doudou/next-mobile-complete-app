@@ -1,4 +1,5 @@
 @import './variables.scss';
+@import './animate.scss';
 
 /* reset */
 body,
@@ -119,6 +120,7 @@ html {
   top: $nav-height;
   right: 0;
   left: 0;
+  min-height: calc(100% - 0.45rem);
   min-height: calc(100% - 0.45rem - constant(safe-area-inset-bottom));
   min-height: calc(100% - 0.45rem - env(safe-area-inset-bottom));
   padding-bottom: constant(safe-area-inset-bottom);

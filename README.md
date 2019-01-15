@@ -344,11 +344,15 @@ let onLeftClick = () => {
 #### 3、请求拦截、loading 状态及错误处理
 
 - **封装 fetch 请求，使用单例模式对请求增加 Authrition 授权、全局 loading 等处理。**
-  > 要点：1、单例模式。2、延迟 loading。3、server 端渲染时不能加载 loading，因为 loading 是通过 document 对象操作的
+  > 要点：
+  - 单例模式。
+  - 延迟 loading。
+  - server 端渲染时不能加载 loading，因为 loading 是通过 document 对象操作的
+  -  有对异步处理时需要用 Promise.all()
 
 ```
 // /api/proxyFetch.js
-import { Toast } from 'antd-mobile';
+import Toast from 'utils/toast';
 import 'isomorphic-unfetch';
 
 // 请求超时时间设置

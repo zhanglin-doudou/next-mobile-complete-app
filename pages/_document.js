@@ -13,12 +13,13 @@ export default class MyDocument extends Document {
         <Head>
           <script src="/static/rem.js" />
           <script src="/static/user-agent.js" />
-          <link rel="stylesheet" type="text/css" href="//unpkg.com/antd-mobile/dist/antd-mobile.min.css" />
         </Head>
         <body>
           <Main />
           <NextScript />
         </body>
+        {process.env.NODE_ENV && <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js" />}
+        {process.env.NODE_ENV && <script>var vConsole = new VConsole();</script>}
       </html>
     );
   }

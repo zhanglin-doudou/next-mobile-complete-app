@@ -73,8 +73,8 @@ class MenuBar extends Component {
           <div
             style={{
               height: '100%',
-              padding: '0 15px',
-              marginRight: '-15px',
+              padding: '0 .15rem',
+              marginRight: '-.15rem',
               display: 'flex',
               alignItems: 'center'
             }}
