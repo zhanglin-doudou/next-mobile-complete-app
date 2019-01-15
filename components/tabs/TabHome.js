@@ -19,7 +19,6 @@ class TabHome extends Component {
         </Link>
         <Button onClick={() => this.requestData()}>client request</Button>
         <div>test input:</div>
-        <input style={{ border: '1px solid red' }} placeholder="输入文字" />
         <h3>Server Initial Data -----></h3>
         {this.props.someData.length > 0 && (
           <pre>

@@ -541,11 +541,7 @@ Router.events.on('routeChangeComplete', () => {
 
 #### 3、Android 键盘弹起窗口会变小，有 flex 或者 position 是 absolute 或者 fixed 布局会变
 
-这里直接把`body.height`设置为浏览器的窗口高度。
-
-```
-doc.body.style.height = docEl.clientHeight + 'px';
-```
+暂无解决方案（尽量避免在有 fixed 的页面使用 input，或者手动隐藏 fixed 元素）
 
 #### 4、跨域及传递 cookie 的问题
 

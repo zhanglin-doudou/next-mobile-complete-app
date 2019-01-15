@@ -25,16 +25,9 @@
     }
     // 乘以100，px : rem = 100 : 1
     docEl.style.fontSize = 100 * (width / 375) + 'px';
-    /* doc.body &&
-      doc.body.style.height !== docEl.clientHeight &&
-      docEl.clientHeight > 360 &&
-      (doc.body.style.height = docEl.clientHeight + 'px'); */
   };
   recalc();
 
   if (!doc.addEventListener) return;
   win.addEventListener(resizeEvt, recalc, false);
-  /* win.onload = () => {
-    doc.body.style.height = docEl.clientHeight + 'px';
-  }; */
 })(document, window);
