@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Layout from '../components/layout/Layout';
-import Tabs from '../components/tabs/TabHome';
+import Tabs from '../components/tabs/Tabs';
 import { getDataStart } from '../store/actions/home/someData';
 import { setNav } from '../store/actions/global/nav';
 
