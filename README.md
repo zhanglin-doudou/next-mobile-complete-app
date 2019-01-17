@@ -305,11 +305,6 @@ static getInitialProps({ ctx }) {
     const { store, req } = ctx;
     // 通过这个action改变导航栏的标题
     store.dispatch(setNav({ navTitle: 'Other' }));
-    const language = req ? req.headers['accept-language'] : navigator.language;
-
-    return {
-      language
-    };
   }
 ```
 

@@ -1,9 +1,4 @@
 .main-tabs {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
   .am-tabs-pane-wrap {
     overflow-y: hidden;
     .am-tab-bar-item {
@@ -12,5 +7,18 @@
   }
   .am-button {
     margin-top: 0.1rem;
+  }
+  .am-tabs-tab-bar-wrap {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    background: #fff;
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .am-tab-bar-bar {
+    height: 0.47rem;
   }
 }

@@ -15,8 +15,8 @@ if (typeof require !== 'undefined') {
   require.extensions['.css'] = file => {};
 }
 
-module.exports = withLess(
-  withCSS(
+module.exports = withCSS(
+  withLess(
     withSass({
       lessLoaderOptions: {
         javascriptEnabled: true,

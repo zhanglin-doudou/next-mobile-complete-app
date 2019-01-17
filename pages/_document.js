@@ -18,8 +18,8 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-        {process.env.NODE_ENV && <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js" />}
-        {process.env.NODE_ENV && <script>var vConsole = new VConsole();</script>}
+        {/* {process.env.NODE_ENV && <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js" />}
+        {process.env.NODE_ENV && <script>var vConsole = new VConsole();</script>} */}
       </html>
     );
   }

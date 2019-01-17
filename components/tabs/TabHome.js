@@ -20,12 +20,14 @@ class TabHome extends Component {
         <Button onClick={() => this.requestData()}>client request</Button>
         <div>test input:</div>
         <h3>Server Initial Data -----></h3>
-        {this.props.someData.length > 0 && (
-          <pre>
-            <code>{JSON.stringify(this.props.someData, null, 2)}</code>
-          </pre>
-        )}
-        {this.props.error && <p style={{ color: 'red' }}>Error: {this.props.error.message}</p>}
+        <div style={{ overflowX: 'scroll' }}>
+          {this.props.someData.length > 0 && (
+            <pre>
+              <code>{JSON.stringify(this.props.someData, null, 2)}</code>
+            </pre>
+          )}
+          {this.props.error && <p style={{ color: 'red' }}>Error: {this.props.error.message}</p>}
+        </div>
       </div>
     );
   }

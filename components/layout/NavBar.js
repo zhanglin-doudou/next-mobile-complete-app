@@ -1,7 +1,8 @@
 import { NavBar, Icon, Popover } from 'antd-mobile';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Router, { withRouter } from 'next/router';
+import Router from 'next/router';
+import { setNav } from 'actions/global/nav';
 const Item = Popover.Item;
 
 const myImg = src => (
@@ -21,23 +22,25 @@ class MenuBar extends Component {
   handleRouteChange = () => {
     if (process.env.NODE_ENV !== 'production') {
       const els = document.querySelectorAll('link[href*="/_next/static/css/styles.chunk.css"]');
-      const timestamp = new Date().valueOf();
-      els[0].href = '/_next/static/css/styles.chunk.css?v=' + timestamp;
+      if (els) {
+        const timestamp = new Date().valueOf();
+        els[0].href = '/_next/static/css/styles.chunk.css?v=' + timestamp;
+      }
     }
     if (window && window.history.length > 0) {
-      !this.setState.canGoBack && this.setState({ canGoBack: true });
+      !this.props.nav.canGoBack && this.props.dispatch(setNav({ canGoBack: true }));
     } else {
-      this.setState.canGoBack && this.setState({ canGoBack: false });
+      this.props.nav.canGoBack && this.props.dispatch(setNav({ canGoBack: false }));
     }
   };
 
   render() {
     const { nav } = this.props;
 
-    let leftContent = this.state.canGoBack ? <Icon type="left" /> : null;
+    let leftContent = nav.canGoBack ? <Icon type="left" /> : null;
     let rightContent;
     let onLeftClick = () => {
-      if (this.state.canGoBack) {
+      if (nav.canGoBack) {
         window.history.back();
       }
     };
@@ -94,4 +97,4 @@ class MenuBar extends Component {
 }
 
 const mapStateToProps = state => ({ nav: state.globalStore.nav });
-export default connect(mapStateToProps)(withRouter(MenuBar));
+export default connect(mapStateToProps)(MenuBar);
