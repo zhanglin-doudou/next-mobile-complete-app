@@ -30,13 +30,10 @@ module.exports = {
 
 ## Style guide
 
-Strongly Recommend to use Eslint and Prettier. See more detail at `.eslintrc.js` and `.prettierrc`.
+Strongly Recommend to use [Eslint](https://eslint.org/) and [Prettier](https://prettier.io/). See more detail at `.eslintrc.js` and `.prettierrc`.
 
 ## Documents
 
 - [Next 轻量级框架与主流工具的整合](https://segmentfault.com/a/1190000016383263)
 - [移动端优雅布局实践](https://segmentfault.com/a/1190000017913569)
-
-## Licensing
-
-State what the license is and how to find the text version of the license.
+- [Next 轻量级框架与主流工具的整合（二）](https://segmentfault.com/a/1190000017947264)
