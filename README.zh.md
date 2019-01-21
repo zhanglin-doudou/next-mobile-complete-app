@@ -1,29 +1,27 @@
 # next-mobile-complete-demo &middot; [![Build Status](https://img.shields.io/travis/npm/npm/latest.svg?style=flat-square)](https://travis-ci.org/npm/npm) [![npm](https://img.shields.io/npm/v/npm.svg?style=flat-square)](https://www.npmjs.com/package/npm) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/your/your-project/blob/master/LICENSE)
 
-A mobile web application demo with [next](https://nextjs.org), [redux](https://github.com/reduxjs/redux), [redux-saga](https://github.com/redux-saga/redux-saga), [koa](https://github.com/koajs/koa), sass, postcss, [ant-design-mobile](https://github.com/ant-design/ant-design-mobile).
+一个基于 [next](https://nextjs.org), [redux](https://github.com/reduxjs/redux), [redux-saga](https://github.com/redux-saga/redux-saga), [koa](https://github.com/koajs/koa), sass, postcss, [ant-design-mobile](https://github.com/ant-design/ant-design-mobile) 的  移动端 SSR 项目模板.
 
- → [中文](./README.zh.md)
-
-## Installing / Getting started
+## 快速开始
 
 ```shell
 npm install
 npm run dev
 ```
 
-And then, server is running on `3002` port.
+打开浏览器访问`http://localhost:3002`。
 
 ![截图示例](http://doudou-static.oss-cn-shanghai.aliyuncs.com/%E5%B8%83%E5%B1%80.png)
 
-## Structure
+##  项目结构
 
 ```
 --------------------------------------------------------------------|
 src
 |-+api
-|   |--proxyFetch.js          // Sington Fetch
+|   |--proxyFetch.js          // Fetch封装
 |   |
-|-+components                 // follow the pages
+|-+components
 |   +--common
 |   |   |...
 |   +--layout
@@ -33,7 +31,7 @@ src
 |   |   |--TabIcon.js
 |   |   |--TabTrick.js
 |   |
-|--env-config                  // environment variables
+|--env-config                  // 项目环境变量
 |   |
 |-+pages
 |   |...
@@ -50,7 +48,7 @@ src
 --------------------------------------------------------------------|
 ```
 
-## Configuration
+## 配置
 
 `env-config.js`
 
@@ -66,13 +64,13 @@ module.exports = {
 };
 ```
 
-## Style guide
+##  代码风格
 
-Strongly Recommend to use Eslint and Prettier. See more detail at `.eslintrc.js` and `.prettierrc`.
+使用 Eslint 和 Prettier。 配置文件在 `.eslintrc.js` 和 `.prettierrc`，可以按照自己的需求自定义.
 
-## Recipes
+## 技巧
 
-- Try to use `Promise.all()` when there are independent requests. _e.g.:_
+- 同时有多个不相关的请求时使用 `Promise.all()` 。 _e.g.:_
 
 ```js
 static async getInitialProps({ ctx }) {
@@ -82,13 +80,9 @@ return { res_1, res_2 };
 }
 ```
 
-- Module imports `lodash`. Be careful when you use data from the request. You must take it into account that how to deal with **bad request** or **empty data**.
+- 模块化导入 `lodash` 的方法。多用`isEmpty`、`get`等方法做  判空和取值 ，避免请求失败而引起代码报错。
 
 ## Documents
 
 - [Next 轻量级框架与主流工具的整合](https://segmentfault.com/a/1190000016383263)
 - [移动端优雅布局实践](https://segmentfault.com/a/1190000017913569)
-
-## Licensing
-
-State what the license is and how to find the text version of the license.
