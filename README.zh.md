@@ -66,7 +66,7 @@ module.exports = {
 
 ##  代码风格
 
-使用 Eslint 和 Prettier。 配置文件在 `.eslintrc.js` 和 `.prettierrc`，可以按照自己的需求自定义.
+项目必备工具 [Eslint](https://eslint.org/)  和 [Prettier](https://prettier.io/)。 配置文件在 `.eslintrc.js` 和 `.prettierrc`，可以按照自己的需求自定义.
 
 ## 技巧
 
