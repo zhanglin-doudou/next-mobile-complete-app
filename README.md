@@ -52,7 +52,10 @@ src
 
 ## Configuration
 
-`env-config.js`
+In production, browsers will request the front-end server and all the requsts will turn into server's inside requests then accepted by bff server. Thus, `BACKEND_URL` is a relative url, in comparison with `BACKEND_URL_SERVER_SIDE` which is a internal bff server address.
+
+In development , the value of `BACKEND_URL` is just the same as `BACKEND_URL_SERVER_SIDE`.
+`env-config.js` which both direct requst the bff server.
 
 ```js
 const isProd = process.env.NODE_ENV === 'production';
