@@ -53,9 +53,8 @@ src
 在生产模式中，客户端的接口请求会去先到前端服务器，前端服务器做一层代理，代理成一个内网请求，再到 bff 层。因此，`BACKEND_URL`是一个相对路径，而`BACKEND_URL_SERVER_SIDE`是一个内网 bff 服务器的地址。
 在开发模式中，`BACKEND_URL`和`BACKEND_URL_SERVER_SIDE`都是一样的，直接去请求 bff 层。
 
-`env-config.js`
-
 ```js
+// env-config.js
 const isProd = process.env.NODE_ENV === 'production';
 
 process.env.BACKEND_URL = isProd ? '/' : 'https://jsonplaceholder.typicode.com';

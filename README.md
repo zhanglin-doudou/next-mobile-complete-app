@@ -58,6 +58,7 @@ In development , the value of `BACKEND_URL` is just the same as `BACKEND_URL_SER
 `env-config.js` which both direct requst the bff server.
 
 ```js
+// env-config.js
 const isProd = process.env.NODE_ENV === 'production';
 
 process.env.BACKEND_URL = isProd ? '/' : 'https://jsonplaceholder.typicode.com';
