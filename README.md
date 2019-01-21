@@ -2,7 +2,7 @@
 
 A mobile web application demo with [next](https://nextjs.org), [redux](https://github.com/reduxjs/redux), [redux-saga](https://github.com/redux-saga/redux-saga), [koa](https://github.com/koajs/koa), sass, postcss, [ant-design-mobile](https://github.com/ant-design/ant-design-mobile).
 
-→ [中文](./README.zh.md)
+→ [中文](./README.zh.md)
 
 ## Installing / Getting started
 
