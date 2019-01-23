@@ -6,5 +6,5 @@ process.env.BACKEND_URL_SERVER_SIDE = isProd ? 'http://bff.api.com' : 'https://j
 
 module.exports = {
   'process.env.BACKEND_URL': process.env.BACKEND_URL,
-  'process.env.BACKEND_URL_SERVER_SIDE': process.env.BACKEND_URL_SERVER_SIDE
+  'process.env.BACKEND_URL_SERVER_SIDE': process.env.BACKEND_URL_SERVER_SIDE,
 };

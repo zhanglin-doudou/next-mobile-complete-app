@@ -20,7 +20,7 @@ module.exports = withCSS(
     withSass({
       lessLoaderOptions: {
         javascriptEnabled: true,
-        modifyVars: themeVariables
+        modifyVars: themeVariables,
       },
       webpack: config => {
         config.resolve.extensions = ['.web.js', '.js', '.json'];
@@ -30,10 +30,10 @@ module.exports = withCSS(
           images: path.resolve(__dirname, 'static/images'),
           api: path.resolve(__dirname, 'api'),
           actions: path.resolve(__dirname, 'store/actions'),
-          utils: path.resolve(__dirname, 'utils')
+          utils: path.resolve(__dirname, 'utils'),
         };
         return config;
-      }
+      },
     })
   )
 );

@@ -11,9 +11,7 @@ const myImg = src => (
 class MenuBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      canGoBack: false
-    };
+    this.state = { canGoBack: false };
   }
   componentDidMount() {
     Router.router.events.on('routeChangeComplete', this.handleRouteChange);
@@ -64,11 +62,11 @@ class MenuBar extends Component {
             </Item>,
             <Item key="6" value="button ct" icon={myImg('uQIYTFeRrjPELImDRrPt')}>
               <span style={{ marginRight: 5 }}>Help</span>
-            </Item>
+            </Item>,
           ]}
           align={{
             overflow: { adjustY: 0, adjustX: 0 },
-            offset: [-10, 0]
+            offset: [-10, 0],
           }}
           onVisibleChange={this.handleVisibleChange}
           onSelect={this.onSelect}
@@ -79,7 +77,7 @@ class MenuBar extends Component {
               padding: '0 .15rem',
               marginRight: '-.15rem',
               display: 'flex',
-              alignItems: 'center'
+              alignItems: 'center',
             }}
           >
             <Icon type="ellipsis" />

@@ -141,7 +141,7 @@ class ProxyFetch {
       fetch(prefix + url, { headers: this.headers, ...this.init, ...options }),
       new Promise((resolve, reject) => {
         setTimeout(() => reject(new Error('request timeout')), REQUEST_TIEM_OUT);
-      })
+      }),
     ])
       .then(response => {
         !isServer && !noLoading && this.hideLoading();
