@@ -12,7 +12,7 @@ function* loadDataSaga(action) {
     // const data = yield proxyFetch.get('/users', params, settings);
     const res = yield fetch('https://api.douban.com/v2/movie/us_box');
     const data = yield res.json();
-    yield put(getDataSuccess(data.subjects));
+    yield put(getDataSuccess(data.subjects || []));
   } catch (err) {
     yield put(getDataFailed(err));
   }
